@@ -1,0 +1,55 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "CANDIDATE_A",
+      "creative_theme": "Retail Summer Promo",
+      "is_synthetic": true,
+      "cpo": 0.35,
+      "time_since_last_click": 600,
+      "campaign": 22589171,
+      "cat1": 5824233,
+      "cat2": 9312274,
+      "cat3": 3490278,
+      "cat4": 29196072,
+      "cat5": 11409686,
+      "cat6": 1973606,
+      "cat7": 25162884,
+      "cat8": 29196072,
+      "cat9": 29196072
+    },
+    {
+      "candidate_id": "CANDIDATE_B",
+      "creative_theme": "SaaS Cloud Demo",
+      "is_synthetic": true,
+      "cpo": 0.12,
+      "time_since_last_click": 423858,
+      "campaign": 884761,
+      "cat1": 30763035,
+      "cat2": 9312274,
+      "cat3": 14584482,
+      "cat4": 29196072,
+      "cat5": 11409686,
+      "cat6": 1973606,
+      "cat7": 22644417,
+      "cat8": 9312274,
+      "cat9": 21091111
+    },
+    {
+      "candidate_id": "CANDIDATE_C",
+      "creative_theme": "Streaming Subscription Special",
+      "is_synthetic": true,
+      "cpo": 0.22,
+      "time_since_last_click": 1800,
+      "campaign": 29427842,
+      "cat1": 28928366,
+      "cat2": 26597095,
+      "cat3": 12435261,
+      "cat4": 23549932,
+      "cat5": 5824237,
+      "cat6": 1973606,
+      "cat7": 9180723,
+      "cat8": 29841067,
+      "cat9": 29196072
+    }
+  ]
+}

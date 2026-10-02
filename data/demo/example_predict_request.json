@@ -1,0 +1,34 @@
+{
+  "impressions": [
+    {
+      "impression_id": "imp_test_01",
+      "cpo": 0.35,
+      "time_since_last_click": 600,
+      "campaign": 22589171,
+      "cat1": 5824233,
+      "cat2": 9312274,
+      "cat3": 3490278,
+      "cat4": 29196072,
+      "cat5": 11409686,
+      "cat6": 1973606,
+      "cat7": 25162884,
+      "cat8": 29196072,
+      "cat9": 29196072
+    },
+    {
+      "impression_id": "imp_test_02",
+      "cpo": 0.12,
+      "time_since_last_click": 423858,
+      "campaign": 884761,
+      "cat1": 30763035,
+      "cat2": 9312274,
+      "cat3": 14584482,
+      "cat4": 29196072,
+      "cat5": 11409686,
+      "cat6": 1973606,
+      "cat7": 22644417,
+      "cat8": 9312274,
+      "cat9": 21091111
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "total_records_processed": 100000,
+  "split_ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "chronological_verification": {
+    "max_train_timestamp": 27666,
+    "min_validation_timestamp": 27666,
+    "train_val_chronological_valid": true,
+    "max_validation_timestamp": 29515,
+    "min_test_timestamp": 29515,
+    "val_test_chronological_valid": true
+  },
+  "splits": {
+    "train": {
+      "row_count": 70000,
+      "total_clicks": 25265,
+      "click_rate": 0.360929,
+      "timestamp_min": 0,
+      "timestamp_max": 27666,
+      "timestamp_span_seconds": 27666,
+      "timestamp_span_hours": 7.68,
+      "distinct_users": 61393,
+      "distinct_campaigns": 643
+    },
+    "validation": {
+      "row_count": 15000,
+      "total_clicks": 5144,
+      "click_rate": 0.342933,
+      "timestamp_min": 27666,
+      "timestamp_max": 29515,
+      "timestamp_span_seconds": 1849,
+      "timestamp_span_hours": 0.51,
+      "distinct_users": 13782,
+      "distinct_campaigns": 612
+    },
+    "test": {
+      "row_count": 15000,
+      "total_clicks": 5002,
+      "click_rate": 0.333467,
+      "timestamp_min": 29515,
+      "timestamp_max": 31251,
+      "timestamp_span_seconds": 1736,
+      "timestamp_span_hours": 0.48,
+      "distinct_users": 13779,
+      "distinct_campaigns": 613
+    }
+  },
+  "overlap_diagnostics": {
+    "validation_users_seen_in_train": {
+      "count": 974,
+      "percentage_of_val_users": 7.07
+    },
+    "test_users_seen_in_train": {
+      "count": 649,
+      "percentage_of_test_users": 4.71
+    },
+    "validation_campaigns_seen_in_train": {
+      "count": 611,
+      "percentage_of_val_campaigns": 99.84
+    },
+    "test_campaigns_seen_in_train": {
+      "count": 609,
+      "percentage_of_test_campaigns": 99.35
+    }
+  },
+  "small_data_scope_and_limits": {
+    "full_dataset_total_impressions": "~16.47 million impressions spanning 30.9 days",
+    "small_data_impressions": 100000,
+    "dataset_portion_percentage": 0.607,
+    "temporal_span_hours": 8.68,
+    "methodological_limits": [
+      "Captures intra-day behavioral variation but cannot observe multi-day trends or day-of-week seasonality.",
+      "Short time window results in high user cold-start ratio (most users observed only once).",
+      "Infrequent/long-tail campaigns may have very few impressions in this window.",
+      "Enables lightning-fast model training, low-latency evaluation, and zero OOM risk on standard laptop CPUs."
+    ]
+  }
+}

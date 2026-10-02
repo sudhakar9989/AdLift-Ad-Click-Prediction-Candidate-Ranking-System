@@ -1,0 +1,41 @@
+{
+  "train_rows": 70000,
+  "validation_rows": 15000,
+  "approved_features": [
+    "cpo",
+    "time_since_last_click",
+    "campaign",
+    "cat1",
+    "cat2",
+    "cat3",
+    "cat4",
+    "cat5",
+    "cat6",
+    "cat7",
+    "cat8",
+    "cat9"
+  ],
+  "models": {
+    "ConstantBaseline": {
+      "log_loss": 0.643669,
+      "roc_auc": 0.5,
+      "pr_auc": 0.342933,
+      "brier_score": 0.225654,
+      "train_time_seconds": 0.0,
+      "prior_click_rate": 0.360929
+    },
+    "LogisticRegression": {
+      "log_loss": 0.602567,
+      "roc_auc": 0.664334,
+      "pr_auc": 0.51533,
+      "brier_score": 0.20737,
+      "train_time_seconds": 0.7256,
+      "hyperparameters": {
+        "C": 0.1,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "min_frequency": 5
+      }
+    }
+  }
+}

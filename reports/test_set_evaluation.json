@@ -1,0 +1,180 @@
+{
+  "evaluation_split": "test.csv (quarantined chronological holdout)",
+  "test_sample_count": 15000,
+  "test_clicks_count": 5002,
+  "empirical_test_ctr": 0.333467,
+  "timestamp_bounds": {
+    "min": 29515,
+    "max": 31251
+  },
+  "target_label": "click",
+  "models": {
+    "ConstantBaseline": {
+      "metrics": {
+        "log_loss": 0.638261,
+        "roc_auc": 0.5,
+        "pr_auc": 0.333467,
+        "brier_score": 0.223021,
+        "expected_calibration_error": 0.027462,
+        "inference_time_seconds": 0.0,
+        "inference_latency_ms_per_item": 0.0
+      },
+      "validation_comparison": {
+        "val_log_loss": 0.643669,
+        "test_log_loss": 0.638261,
+        "delta_log_loss": -0.005408,
+        "val_roc_auc": 0.5,
+        "test_roc_auc": 0.5,
+        "delta_roc_auc": 0.0,
+        "val_pr_auc": 0.342933,
+        "test_pr_auc": 0.333467,
+        "delta_pr_auc": -0.009466,
+        "val_brier_score": 0.225654,
+        "test_brier_score": 0.223021,
+        "delta_brier_score": -0.002633
+      }
+    },
+    "LogisticRegression": {
+      "metrics": {
+        "log_loss": 0.594461,
+        "roc_auc": 0.668925,
+        "pr_auc": 0.512675,
+        "brier_score": 0.203788,
+        "expected_calibration_error": 0.022865,
+        "inference_time_seconds": 0.0822,
+        "inference_latency_ms_per_item": 0.0055
+      },
+      "validation_comparison": {
+        "val_log_loss": 0.602567,
+        "test_log_loss": 0.594461,
+        "delta_log_loss": -0.008106,
+        "val_roc_auc": 0.664334,
+        "test_roc_auc": 0.668925,
+        "delta_roc_auc": 0.004591,
+        "val_pr_auc": 0.51533,
+        "test_pr_auc": 0.512675,
+        "delta_pr_auc": -0.002655,
+        "val_brier_score": 0.20737,
+        "test_brier_score": 0.203788,
+        "delta_brier_score": -0.003582
+      }
+    },
+    "LightGBM": {
+      "metrics": {
+        "log_loss": 0.59424,
+        "roc_auc": 0.670846,
+        "pr_auc": 0.515353,
+        "brier_score": 0.203646,
+        "expected_calibration_error": 0.024081,
+        "inference_time_seconds": 0.1947,
+        "inference_latency_ms_per_item": 0.013
+      },
+      "validation_comparison": {
+        "val_log_loss": 0.600068,
+        "test_log_loss": 0.59424,
+        "delta_log_loss": -0.005828,
+        "val_roc_auc": 0.668875,
+        "test_roc_auc": 0.670846,
+        "delta_roc_auc": 0.001971,
+        "val_pr_auc": 0.522068,
+        "test_pr_auc": 0.515353,
+        "delta_pr_auc": -0.006715,
+        "val_brier_score": 0.206322,
+        "test_brier_score": 0.203646,
+        "delta_brier_score": -0.002676
+      }
+    },
+    "PyTorch_EmbeddingMLP": {
+      "metrics": {
+        "log_loss": 0.598605,
+        "roc_auc": 0.662611,
+        "pr_auc": 0.504011,
+        "brier_score": 0.205568,
+        "expected_calibration_error": 0.023836,
+        "inference_time_seconds": 0.3821,
+        "inference_latency_ms_per_item": 0.0255
+      },
+      "validation_comparison": {
+        "val_log_loss": 0.607027,
+        "test_log_loss": 0.598605,
+        "delta_log_loss": -0.008422,
+        "val_roc_auc": 0.657283,
+        "test_roc_auc": 0.662611,
+        "delta_roc_auc": 0.005328,
+        "val_pr_auc": 0.506505,
+        "test_pr_auc": 0.504011,
+        "delta_pr_auc": -0.002494,
+        "val_brier_score": 0.209334,
+        "test_brier_score": 0.205568,
+        "delta_brier_score": -0.003766
+      }
+    }
+  },
+  "lightgbm_test_slices": {
+    "user_recency_slices": [
+      {
+        "slice_name": "First-Time User (No prior click)",
+        "sample_count": 7685,
+        "percentage_of_data": 51.23,
+        "actual_click_rate": 0.2865,
+        "mean_predicted_prob": 0.3034,
+        "roc_auc": 0.634,
+        "log_loss": 0.5765,
+        "brier_score": 0.1954
+      },
+      {
+        "slice_name": "Returning Active (< 1 hour)",
+        "sample_count": 733,
+        "percentage_of_data": 4.89,
+        "actual_click_rate": 0.6248,
+        "mean_predicted_prob": 0.6154,
+        "roc_auc": 0.6655,
+        "log_loss": 0.6213,
+        "brier_score": 0.2161
+      },
+      {
+        "slice_name": "Returning Dormant (> 24 hours)",
+        "sample_count": 5335,
+        "percentage_of_data": 35.57,
+        "actual_click_rate": 0.3265,
+        "mean_predicted_prob": 0.3569,
+        "roc_auc": 0.6548,
+        "log_loss": 0.5988,
+        "brier_score": 0.2058
+      },
+      {
+        "slice_name": "Returning Re-engaged (1-24 hours)",
+        "sample_count": 1247,
+        "percentage_of_data": 8.31,
+        "actual_click_rate": 0.4812,
+        "mean_predicted_prob": 0.5106,
+        "roc_auc": 0.6253,
+        "log_loss": 0.6679,
+        "brier_score": 0.2378
+      }
+    ],
+    "bid_cpo_slices": [
+      {
+        "slice_name": "High CPO (>= 0.178)",
+        "sample_count": 7515,
+        "percentage_of_data": 50.1,
+        "actual_click_rate": 0.2923,
+        "mean_predicted_prob": 0.3227,
+        "roc_auc": 0.6483,
+        "log_loss": 0.5773,
+        "brier_score": 0.196
+      },
+      {
+        "slice_name": "Low CPO (< 0.178)",
+        "sample_count": 7485,
+        "percentage_of_data": 49.9,
+        "actual_click_rate": 0.3747,
+        "mean_predicted_prob": 0.3872,
+        "roc_auc": 0.6802,
+        "log_loss": 0.6112,
+        "brier_score": 0.2114
+      }
+    ]
+  },
+  "evaluation_timestamp": "2026-10-02 18:10:52 UTC"
+}

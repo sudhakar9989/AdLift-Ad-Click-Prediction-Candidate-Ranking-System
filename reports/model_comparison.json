@@ -1,0 +1,53 @@
+{
+  "validation_rows": 15000,
+  "target_label": "click",
+  "models": {
+    "ConstantBaseline": {
+      "log_loss": 0.643669,
+      "roc_auc": 0.5,
+      "pr_auc": 0.342933,
+      "brier_score": 0.225654,
+      "train_time_seconds": 0.0,
+      "prior_click_rate": 0.360929
+    },
+    "LogisticRegression": {
+      "log_loss": 0.602567,
+      "roc_auc": 0.664334,
+      "pr_auc": 0.51533,
+      "brier_score": 0.20737,
+      "train_time_seconds": 0.7256,
+      "hyperparameters": {
+        "C": 0.1,
+        "penalty": "l2",
+        "solver": "lbfgs",
+        "min_frequency": 5
+      }
+    },
+    "LightGBM": {
+      "log_loss": 0.600068,
+      "roc_auc": 0.668875,
+      "pr_auc": 0.522068,
+      "brier_score": 0.206322,
+      "train_time_seconds": 1.0847,
+      "hyperparameters": {
+        "n_estimators": 180,
+        "learning_rate": 0.03,
+        "num_leaves": 45,
+        "min_child_samples": 50,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 1.5,
+        "reg_lambda": 8.0,
+        "cat_smooth": 40.0
+      }
+    },
+    "PyTorch_EmbeddingMLP": {
+      "log_loss": 0.607027,
+      "roc_auc": 0.657283,
+      "pr_auc": 0.506505,
+      "brier_score": 0.209334,
+      "train_time_seconds": 23.1512,
+      "architecture": "EmbeddingMLP (64 -> 32 -> 1)"
+    }
+  }
+}

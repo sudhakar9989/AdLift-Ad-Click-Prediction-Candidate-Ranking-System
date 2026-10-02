@@ -1,0 +1,174 @@
+{
+  "split_evaluated": "validation.csv (Chronological, 15,000 rows)",
+  "empirical_click_rate": 0.3429,
+  "mean_predicted_probability": 0.3553,
+  "calibration_summary": {
+    "expected_calibration_error": 0.017479,
+    "brier_score": 0.206322,
+    "log_loss": 0.600068
+  },
+  "score_buckets": [
+    {
+      "bin_index": 0,
+      "range": "[0.0, 0.1)",
+      "count": 30,
+      "percentage": 0.2,
+      "observed_click_rate": 0.1,
+      "mean_predicted_prob": 0.0929,
+      "calibration_gap": 0.0071
+    },
+    {
+      "bin_index": 1,
+      "range": "[0.1, 0.2)",
+      "count": 1946,
+      "percentage": 12.97,
+      "observed_click_rate": 0.1547,
+      "mean_predicted_prob": 0.1635,
+      "calibration_gap": -0.0088
+    },
+    {
+      "bin_index": 2,
+      "range": "[0.2, 0.3)",
+      "count": 4184,
+      "percentage": 27.89,
+      "observed_click_rate": 0.2576,
+      "mean_predicted_prob": 0.2522,
+      "calibration_gap": 0.0055
+    },
+    {
+      "bin_index": 3,
+      "range": "[0.3, 0.4)",
+      "count": 3775,
+      "percentage": 25.17,
+      "observed_click_rate": 0.3311,
+      "mean_predicted_prob": 0.3476,
+      "calibration_gap": -0.0165
+    },
+    {
+      "bin_index": 4,
+      "range": "[0.4, 0.5)",
+      "count": 2579,
+      "percentage": 17.19,
+      "observed_click_rate": 0.4161,
+      "mean_predicted_prob": 0.4461,
+      "calibration_gap": -0.03
+    },
+    {
+      "bin_index": 5,
+      "range": "[0.5, 0.6)",
+      "count": 1436,
+      "percentage": 9.57,
+      "observed_click_rate": 0.4986,
+      "mean_predicted_prob": 0.5454,
+      "calibration_gap": -0.0468
+    },
+    {
+      "bin_index": 6,
+      "range": "[0.6, 0.7)",
+      "count": 728,
+      "percentage": 4.85,
+      "observed_click_rate": 0.647,
+      "mean_predicted_prob": 0.6426,
+      "calibration_gap": 0.0043
+    },
+    {
+      "bin_index": 7,
+      "range": "[0.7, 0.8)",
+      "count": 291,
+      "percentage": 1.94,
+      "observed_click_rate": 0.7732,
+      "mean_predicted_prob": 0.7381,
+      "calibration_gap": 0.0351
+    },
+    {
+      "bin_index": 8,
+      "range": "[0.8, 0.9)",
+      "count": 31,
+      "percentage": 0.21,
+      "observed_click_rate": 0.871,
+      "mean_predicted_prob": 0.8215,
+      "calibration_gap": 0.0495
+    }
+  ],
+  "performance_slices": {
+    "user_recency_slices": [
+      {
+        "slice_name": "First-Time User (No prior click)",
+        "sample_count": 7559,
+        "percentage_of_data": 50.39,
+        "actual_click_rate": 0.2941,
+        "mean_predicted_prob": 0.302,
+        "roc_auc": 0.6363,
+        "log_loss": 0.5821,
+        "brier_score": 0.1981
+      },
+      {
+        "slice_name": "Returning Active (< 1 hour)",
+        "sample_count": 739,
+        "percentage_of_data": 4.93,
+        "actual_click_rate": 0.6604,
+        "mean_predicted_prob": 0.6238,
+        "roc_auc": 0.6605,
+        "log_loss": 0.6061,
+        "brier_score": 0.2087
+      },
+      {
+        "slice_name": "Returning Dormant (> 24 hours)",
+        "sample_count": 5442,
+        "percentage_of_data": 36.28,
+        "actual_click_rate": 0.3394,
+        "mean_predicted_prob": 0.3564,
+        "roc_auc": 0.6452,
+        "log_loss": 0.6102,
+        "brier_score": 0.2109
+      },
+      {
+        "slice_name": "Returning Re-engaged (1-24 hours)",
+        "sample_count": 1260,
+        "percentage_of_data": 8.4,
+        "actual_click_rate": 0.4651,
+        "mean_predicted_prob": 0.5134,
+        "roc_auc": 0.6461,
+        "log_loss": 0.661,
+        "brier_score": 0.2344
+      }
+    ],
+    "bid_cpo_slices": [
+      {
+        "slice_name": "High CPO (>= 0.176)",
+        "sample_count": 7503,
+        "percentage_of_data": 50.02,
+        "actual_click_rate": 0.3067,
+        "mean_predicted_prob": 0.3179,
+        "roc_auc": 0.6519,
+        "log_loss": 0.5846,
+        "brier_score": 0.1992
+      },
+      {
+        "slice_name": "Low CPO (< 0.176)",
+        "sample_count": 7497,
+        "percentage_of_data": 49.98,
+        "actual_click_rate": 0.3792,
+        "mean_predicted_prob": 0.3928,
+        "roc_auc": 0.6752,
+        "log_loss": 0.6155,
+        "brier_score": 0.2134
+      }
+    ]
+  },
+  "figures_generated": [
+    "reports\\figures\\calibration_curve.png",
+    "reports\\figures\\probability_distribution.png",
+    "reports\\figures\\score_buckets.png"
+  ],
+  "theoretical_distinction": {
+    "concept": "Ranking Discrimination vs. Probability Calibration",
+    "ranking_discrimination": "Measured by ROC AUC (0.6689) and PR AUC (0.5221). Measures the model's ability to rank a random clicked ad higher than a non-clicked ad. Crucial for candidate retrieval and sorting order.",
+    "probability_calibration": "Measured by Log Loss (0.6001), Brier Score (0.2063), and ECE (0.0163). In real-time ad bidding (RTB), expected value is calculated as eCPM = pCTR * Bid. If pCTR is uncalibrated (e.g. overpredicted 2x), the bidder overpays in first-price auctions or exhausts advertiser budgets on low-intent inventory."
+  },
+  "error_analysis_and_limitations": [
+    "False Positives in Recent Clicks: Highly active users (< 1 hr recency) click at 66%, but 34% still do not click, causing elevated false positive rates in dense user sessions.",
+    "Long-Tail Category Sparsity: Rare campaigns with few training observations exhibit slight shrinkage toward the global prior due to L2 regularization.",
+    "Lack of User History: Because 92.9% of validation users are first-time cold-start users, the model must rely on contextual and campaign signals rather than personalized user history."
+  ]
+}

@@ -1,0 +1,219 @@
+Metadata-Version: 2.4
+Name: adlift
+Version: 0.1.0
+Summary: AdLift: Ad click prediction and ranking demonstration inspired by NVIDIA Merlin recommender systems theme.
+Author: AdLift Team
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: scikit-learn>=1.3.0
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: fastapi>=0.100.0
+Requires-Dist: uvicorn>=0.22.0
+Requires-Dist: httpx>=0.24.0
+Requires-Dist: pytest>=7.0.0
+Requires-Dist: lightgbm>=4.6.0
+Requires-Dist: matplotlib>=3.9.4
+Requires-Dist: torch>=2.8.0
+Requires-Dist: streamlit>=1.50.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+
+# AdLift
+
+**AdLift** is an original, portfolio-quality ad click prediction and ranking demonstration inspired by the recommender-system theme of NVIDIA Merlin Models.
+
+---
+
+## Project Overview
+
+- **Goal**: Predict whether an ad impression will receive a click, evaluate models honestly, and serve predictions through a FastAPI service and a local interactive dashboard.
+- **Important Scope**:
+  - The dataset supports **click prediction on observed impressions**.
+  - A ranking demo may sort supplied candidate records by predicted score, but **it must not claim to have proved that showing the top-ranked ad would cause more clicks** (the offline observational data does not provide an online counterfactual experiment).
+  - Explicit prevention of target leakage: post-impression conversion events (`conversion`, `conversion_timestamp`, etc.) and outcome counters (`click_pos`, `click_nb`) are strictly excluded from model inputs.
+
+---
+
+## Observed Dataset Schema
+
+Direct inspection of `data/raw/criteo_attribution_dataset.tsv.gz` reveals 22 tab-separated columns:
+
+| Column | Observed Type | Category / Role |
+| :--- | :--- | :--- |
+| `timestamp` | `int64` | Context / Chronological order (seconds) |
+| `uid` | `int64` | Hashed user identifier |
+| `campaign` | `int64` | Hashed campaign identifier |
+| `conversion` | `int64` | Post-impression conversion outcome (**Excluded**) |
+| `conversion_timestamp`| `int64` | Post-impression conversion timestamp (**Excluded**) |
+| `conversion_id` | `int64` | Post-impression conversion ID (**Excluded**) |
+| `attribution` | `int64` | Attribution status (**Excluded**) |
+| **`click`** | `int64` | **Target Label (0 or 1)** |
+| `click_pos` | `int64` | Click position (-1 if no click) (**Leakage - Excluded**) |
+| `click_nb` | `int64` | Click count (-1 if no click) (**Leakage - Excluded**) |
+| `cost` | `float64` | Impression cost |
+| `cpo` | `float64` | Cost per order / bid target |
+| `time_since_last_click`| `int64` | Recency feature in seconds (-1 if first/none) |
+| `cat1` - `cat9` | `int64` | Categorical context / feature hashes |
+
+---
+
+## Project Structure
+
+```text
+AdLift/
+├── data/
+│   ├── raw/                 # Ignored by git: criteo_attribution_dataset.tsv.gz
+│   ├── processed/           # Ignored by git: intermediate splits & processed data
+│   └── demo/                # Synthetic candidate impressions for ranking demo
+│       └── synthetic_candidates.json
+├── docs/                    # Architecture notes and feature specifications
+│   └── features.md          # Step 3 detailed column categorization and leakage policy
+├── reports/                 # Evaluation figures, comparison tables, and metrics
+│   ├── figures/                         # Ignored by git: calibration, distribution, score bucket plots
+│   ├── data_inspection_summary.json     # Step 2 chunked inspection report
+│   ├── data_split_summary.json          # Step 4 chronological split diagnostics
+│   ├── baseline_validation_metrics.json # Step 5 baseline validation metrics
+│   ├── model_comparison.json            # Step 6 & 8 4-model validation metrics
+│   ├── model_comparison.md              # Step 6 & 8 formatted comparison table
+│   ├── calibration_and_error_analysis.json # Step 7 calibration metrics and slices
+│   └── calibration_and_error_analysis.md   # Step 7 calibration and failure report
+├── scripts/
+│   ├── inspect_head.py          # Quick CLI inspection tool for compressed TSV
+│   ├── inspect_data.py          # Streaming chunked inspection tool (configurable limit)
+│   ├── create_splits.py         # Chronological train/validation/test split generator
+│   ├── train_baselines.py       # Baseline models trainer and evaluator
+│   ├── train_tabular.py         # Stronger LightGBM model trainer and comparator
+│   ├── train_pytorch.py         # Step 8 PyTorch EmbeddingMLP trainer and comparator
+│   ├── evaluate_calibration.py  # Calibration curves, score buckets, and slice analysis
+│   └── demo_ranking.py          # Step 9 candidate ranking demonstration CLI
+├── src/
+│   └── adlift/
+│       ├── __init__.py          # Package entry point
+│       ├── analysis.py          # Calibration curve, slice diagnostics, and plot generator
+│       ├── api/
+│       │   ├── __init__.py      # API package entry
+│       │   ├── app.py           # FastAPI service (/health, /predict, /rank)
+│       │   └── schemas.py       # Pydantic request and response schemas
+│       ├── data_loader.py       # Safe streaming chunk loader and schema profiler
+│       ├── features.py          # Feature categorization, allowlist, and leakage validator
+│       ├── models/
+│       │   ├── __init__.py      # Models package entry
+│       │   ├── baselines.py     # Constant and Logistic Regression baselines
+│       │   ├── lightgbm_model.py # Regularized LightGBM tabular click model
+│       │   └── pytorch_model.py # Compact PyTorch EmbeddingMLP click model
+│       ├── ranking.py           # Step 9 deterministic candidate ranking & tie-breaker
+│       ├── schema.py            # Raw schema definitions and constants
+│       └── split.py             # Chronological partitioning and overlap diagnostics
+├── tests/
+│   ├── test_analysis.py         # Calibration and slice diagnostic tests
+│   ├── test_api.py              # FastAPI endpoint (/health, /predict, /rank) & parity tests
+│   ├── test_basic.py            # Basic structure, schema, and packaging tests
+│   ├── test_baselines.py        # Baseline probability, reload, and metric tests
+│   ├── test_data_loader.py      # Unit tests for chunked loader with synthetic fixture
+│   ├── test_features.py         # Leakage prevention and feature allowlist tests
+│   ├── test_lightgbm.py         # LightGBM probability, reload, and comparison tests
+│   ├── test_pytorch.py          # PyTorch forward pass, training, and reload tests
+│   ├── test_ranking.py          # Step 9 candidate ranking, tie-breaking, and validation tests
+│   └── test_split.py            # Chronological invariant and split stability tests
+├── pyproject.toml               # Project dependencies and packaging
+├── README.md                    # Project documentation
+└── .gitignore                   # Strict ignore rules for data, models, and caches
+```
+
+---
+
+## Setup & Verification on Windows PowerShell
+
+### Prerequisites
+- Python 3.9+ (or [uv](https://docs.astral.sh/uv/))
+- The raw dataset file placed at:
+  ```text
+  data/raw/criteo_attribution_dataset.tsv.gz
+  ```
+
+### 1. Environment Setup (using `uv`)
+```powershell
+# Create virtual environment and install dependencies
+uv venv
+uv pip install -e .
+```
+*Or using standard Python:*
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e .
+```
+
+### 2. Inspect Dataset Head (Step 1 Verification)
+To view the real schema and the first 3 rows directly from the compressed file without decompression:
+```powershell
+uv run python scripts/inspect_head.py --rows 3
+```
+
+### 3. Streaming Chunked Data Inspection (Step 2 Verification)
+Inspect 100,000 rows in safe chunks (25k rows per chunk) without loading the whole dataset into RAM:
+```powershell
+uv run python scripts/inspect_data.py --limit 100000
+```
+
+### 4. Generate Chronological Splits (Step 4 Verification)
+Generate reproducible chronological train (70k), validation (15k), and test (15k) splits:
+```powershell
+uv run python scripts/create_splits.py --limit 100000
+```
+
+### 5. Train & Evaluate Baselines (Step 5 Verification)
+Train Constant Baseline and regularized Logistic Regression on train split and evaluate on validation split:
+```powershell
+uv run python scripts/train_baselines.py
+```
+
+### 6. Train Stronger Tabular Model & Compare (Step 6 Verification)
+Train regularized LightGBM tabular model and output the 3-model experiment comparison table:
+```powershell
+uv run python scripts/train_tabular.py
+```
+
+### 7. Evaluate Calibration & Diagnostic Slices (Step 7 Verification)
+Generate reliability diagrams, score bucket tables, and recency/bid performance slices:
+```powershell
+uv run python scripts/evaluate_calibration.py
+```
+
+### 8. Train PyTorch Deep Learning Model (Step 8 Verification)
+Train the compact PyTorch EmbeddingMLP model and update the 4-model comparison table:
+```powershell
+uv run python scripts/train_pytorch.py
+```
+
+### 9. Candidate Ranking Demonstration (Step 9 Verification)
+Score and rank synthetic candidate impression records with deterministic tie-breaking:
+```powershell
+uv run python scripts/demo_ranking.py
+```
+
+### 10. Start and Test the FastAPI Service (Step 10 Verification)
+Start the production-ready FastAPI service:
+```powershell
+uv run uvicorn adlift.api.app:app --host 127.0.0.1 --port 8000
+```
+In a second PowerShell window, test the endpoints using native PowerShell commands:
+```powershell
+# 1. Health check probe
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/health" -Method Get | ConvertTo-Json
+
+# 2. Score impression records
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/predict" -Method Post -InFile "data/demo/example_predict_request.json" -ContentType "application/json" | ConvertTo-Json
+
+# 3. Rank candidate ads with deterministic tie-breaking
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/rank" -Method Post -InFile "data/demo/example_rank_request.json" -ContentType "application/json" | ConvertTo-Json
+```
+
+### 11. Run Full Test Suite
+```powershell
+uv run pytest
+```
